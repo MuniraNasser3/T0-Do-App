@@ -7,12 +7,16 @@ WORKDIR /app
 # Copy all the project files to the container
 COPY . .
 
+RUN apt-get update && apt-get install -y netcat-openbsd
+
+
 # Install required Python packages
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose the FastAPI port
 EXPOSE 8000
 
-# Run the FastAPI app
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+COPY wait-for-postgres.sh .
+CMD ["./wait-for-postgres.sh", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
 

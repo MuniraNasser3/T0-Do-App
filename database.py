@@ -3,14 +3,12 @@ from sqlalchemy import create_engine #import create engine function
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker 
-
+from dotenv import load_dotenv
 import os #Used here to read environment variables, like  database URL from the .env file
 
-from dotenv import load_dotenv # here we load the .env file and set env variable
+load_dotenv()
 
-load_dotenv()# here we load the .env file and set env variable
-
-DATABASE_URL = os.getenv("DATABASE_URL") # here we read the variable 
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(DATABASE_URL)#oppen a connection between the python app and the DB
 SessionLocal = sessionmaker(bind=engine) # create session to intract with DB
